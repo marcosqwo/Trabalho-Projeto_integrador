@@ -6,14 +6,18 @@
             <div class="row">
                 <h3 class="text-center">Dados do cliente</h3>
                 <p class="p-2 mt-2"><strong>Nome: </strong>{{object.nome}}</p>
-                <p class="p-2 mt-2"><strong>Cpf: </strong>{{object.cpf}}</p>
+                {% if object.cpf %}
+                    <p class="p-2 mt-2"><strong>Cpf: </strong>{{object.cpf}}</p>
+                {% else %}
+                    <p class="p-2 mt-2"><strong>Cnpj: </strong>{{object.cnpj}}</p>
+                {% endif %}
                 <p class="p-2 mt-2">Confirma a exclusão do cliente: <strong></strong>?</p>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="text-end">
                         {% bootstrap_button button_type="submit" content="Sim" %}
-                        <a href="{% url 'pessoa_fisica' %}" class="btn btn-secondary text-white" type="button">
+                        <a href="{% url 'clientes' %}" class="btn btn-secondary text-white" type="button">
                            <span class="text">Cancelar</span>
                         </a>
                     </div>

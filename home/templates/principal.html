@@ -2,7 +2,7 @@
 <html lang="pt-br" data-bs-theme="light">
     {% load static %}
 	{% block head%}
-		{% include "head.html"%}
+    {% include "head.html"%}
 	{% endblock %}
     <body>
         <section class="section bg-success p-2 bg-opacity-75">
@@ -28,8 +28,9 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li><a class="dropdown-item" href="{% url 'cliente_adicionar' %}">Cadastrar Pessoa Fisica</a></li>
-										<li><a class="dropdown-item" href="{% url 'cliente_adicionar' %}">Cadastrar Pessoa Juridica</a></li>
+										<li><a class="dropdown-item" href="{% url 'cliente_juridico_adicionar' %}">Cadastrar Pessoa Juridica</a></li>
 										<li><a class="dropdown-item" href="{% url 'clientes' %}">Listar Clientes</a></li>
+										<li><a class="dropdown-item" href="{% url 'clientes_juridico' %}">Listar Clientes Juridicos</a></li>
 									</ul>
 								</li>
                                 <li class="nav-item dropdown">
@@ -88,6 +89,22 @@
 				</nav>
             </div>
         </section>
+    {% block messages %}
+        {% if messages %}
+            {% for message in messages %}
+                    <div class="toast fade show position-fixed bottom-0 end-0 bg-dark mb-3 me-3 text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+            <strong class="me-auto">Mensagem</strong>
+            <small>Agora</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body m-5">
+            {{ message }}
+           </div>
+                  </div>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}
 	{% block content %} {% endblock %}
 	{% block footer %}
 		{% include "footer.html" %}
