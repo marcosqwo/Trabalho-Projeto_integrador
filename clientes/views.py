@@ -1,5 +1,3 @@
-from itertools import chain
-
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator

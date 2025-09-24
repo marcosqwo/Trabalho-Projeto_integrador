@@ -34,23 +34,13 @@
 									</ul>
 								</li>
                                 <li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarFornecedor" role="button"
-										data-bs-toggle="dropdown" aria-expanded="false">
-										Fornecedores
-									</a>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Cadastrar Fornecedor</a></li>
-										<li><a class="dropdown-item" href="#">Listar Fornecedores</a></li>
-									</ul>
-								</li>
-                                <li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" id="navbarFuncionario" role="button"
 										data-bs-toggle="dropdown" aria-expanded="false">
 										Funcionários
 									</a>
 									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Cadastrar Funcionário</a></li>
-										<li><a class="dropdown-item" href="#">Listar Funcionários</a></li>
+										<li><a class="dropdown-item" href="{% url 'funcionario_adicionar' %}">Cadastrar Funcionário</a></li>
+										<li><a class="dropdown-item" href="{% url 'funcionarios' %}">Listar Funcionários</a></li>
 									</ul>
 								</li>
                                 <li class="nav-item dropdown">
