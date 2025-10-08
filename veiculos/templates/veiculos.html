@@ -37,9 +37,8 @@
                                         {% else %}
                                         {{ veiculo.cliente_juridico.nome }}
                                         {% endif %}</td>
-{#                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{veiculo.id}}">{{veiculo.cliente.}}</a>#}
                                         <td> {{veiculo.placa}} </td>
-                                        <td> {{veiculo.tipo}} </td>
+                                        <td> {{veiculo.get_tipo_display}} </td>
                                         <td> {{veiculo.modelo}} </td>
                                         <td style="text-align: center">
                                             <a href="{% url 'veiculo_editar' veiculo.pk %}">
@@ -53,36 +52,6 @@
                                                 </span>
                                             </a>
                                         </td>
-
-{#                                        <div class="modal" tabindex="-1" id="modal{{veiculo.id}}">#}
-{#                                            <div class="modal-dialog">#}
-{#                                                <div class="modal-content">#}
-{#                                                    <div class="modal-header">#}
-{#                                                        <h5 class="modal-title">Veículo:{{veiculo.modelo}}</h5>#}
-{#                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#                                                    </div>#}
-{##}
-{#                                                    <div class="modal-body d-flex justify-content-center">#}
-{#                                                        <div>#}
-{#                                                            <h6><strong>Cliente:</strong>{{veiculo.}}</h6>#}
-{#                                                            <h6><strong>Função:</strong>{{ funcionario.funcao }}</h6>#}
-{#                                                            <h6><strong>Função:</strong>{{ funcionario.funcao }}</h6>#}
-{#                                                            <h6><strong>Função:</strong>{{ funcionario.funcao }}</h6>#}
-{#                                                            <h6><strong>Função:</strong>{{ funcionario.funcao }}</h6>#}
-{#                                                        </div>#}
-{##}
-{#                                                    </div>#}
-{##}
-{##}
-{#                                                    <div class="modal-footer">#}
-{#                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">#}
-{#                                                            Fechar#}
-{#                                                        </button>#}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
                                     </tr>
                                 {% endfor %}
                             </tbody>
