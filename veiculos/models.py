@@ -26,3 +26,5 @@ class Veiculos(models.Model):
         if self.placa: 
            self.placa = self.placa.upper()
         super().save(*args, **kwargs)
+
+
