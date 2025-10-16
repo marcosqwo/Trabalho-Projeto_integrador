@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -33,24 +32,7 @@ class VeiculoAddView(SuccessMessageMixin, CreateView):
     template_name = 'veiculos_form.html'
     success_url = reverse_lazy('veiculos')
     success_message = 'Veículo cadastrado com sucesso!'
-    def form_valid(self, form):
-        f = form.save(commit=False)
 
-        clientepf = form.cleaned_data.get('cliente_fisico')
-        clientepj = form.cleaned_data.get('cliente_juridico')
-
-        if clientepf and clientepj:
-           messages.error(self.request,'Não é possível selecionar tanto Pessoa Física quanto Pessoa Jurídica.')
-           return super().form_invalid(form)
-        elif clientepj or clientepf:
-            f.save()
-            messages.success(self.request,'Veículo cadastrado com sucesso!')
-            return super().form_valid(form)
-        else:
-             messages.error(self.request,'Por favor, selecione pelo menos uma opção de cliente (Pessoa Física ou Pessoa Jurídica).')
-             return super().form_invalid(form)
-
-        return HttpResponseRedirect(self.get_success_url())
 
 
 class VeiculoUpdateView(SuccessMessageMixin,UpdateView):
@@ -59,24 +41,7 @@ class VeiculoUpdateView(SuccessMessageMixin,UpdateView):
     template_name = 'veiculos_form.html'
     success_url = reverse_lazy('veiculos')
     success_message = 'Veículo alterado com sucesso!'
-    def form_valid(self, form):
-        f = form.save(commit=False)
 
-        clientepf = form.cleaned_data.get('cliente_fisico')
-        clientepj = form.cleaned_data.get('cliente_juridico')
-
-        if clientepf and clientepj:
-           messages.error(self.request,'Não é possível selecionar tanto Pessoa Física quanto Pessoa Jurídica.')
-           return super().form_invalid(form)
-        elif clientepj or clientepf:
-            f.save()
-            messages.success(self.request,'Veículo cadastrado com sucesso!')
-            return super().form_valid(form)
-        else:
-             messages.error(self.request,'Por favor, selecione pelo menos uma opção de cliente (Pessoa Física ou Pessoa Jurídica).')
-             return super().form_invalid(form)
-
-        return HttpResponseRedirect(self.get_success_url())
 
 class VeiculoDeleteView(SuccessMessageMixin,DeleteView):
     model = Veiculos

@@ -15,11 +15,13 @@ class ValorHora(models.Model):
 
 
 class Estadia(models.Model):
-    funcionario = models.ForeignKey('funcionarios.Funcionario', on_delete=models.CASCADE)
+    funcionario_entrada = models.ForeignKey('funcionarios.Funcionario',verbose_name='Funcionário',on_delete=models.CASCADE,related_name='func_entrada')
+    funcionario_saida = models.ForeignKey('funcionarios.Funcionario',verbose_name='Funcionário',on_delete=models.CASCADE,related_name='func_saida',null=True,blank=True)
     veiculo = models.ForeignKey('veiculos.Veiculos', on_delete=models.CASCADE)
-    entrada = models.DateTimeField(null=True, blank=True)
+    entrada = models.DateTimeField()
     saida = models.DateTimeField(null=True,blank=True)
     valor = models.DecimalField('Valor total',max_digits=6,decimal_places=2,default=0.00)
+
 
     class Meta:
         verbose_name = 'Estadia'

@@ -11,17 +11,30 @@ class EstadiaModelForm(forms.ModelForm):
     )
 
 
-    class Meta:
-        model = Estadia
-        fields = ['funcionario', 'veiculo', 'entrada']
 
 
-class SaidaModelForm(forms.ModelForm):
-    saida = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-        initial=timezone.now
-    )
 
     class Meta:
         model = Estadia
-        fields = ['saida']
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.data.get('entrada'):
+            form = self.veiculo.
+
+
+
+
+
+#
+# class SaidaModelForm(forms.ModelForm):
+#     saida = forms.DateTimeField(
+#         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+#         initial=timezone.now
+#     )
+#
+#
+#     class Meta:
+#         model = Estadia
+#         fields = ['saida']

@@ -33,10 +33,7 @@
                             <tbody>
                             {% for veiculo in veiculos  %}
                                     <tr>
-                                        <td>{% if veiculo.cliente_fisico  %}{{ veiculo.cliente_fisico.nome }}
-                                        {% else %}
-                                        {{ veiculo.cliente_juridico.nome }}
-                                        {% endif %}</td>
+                                        <td>{{ veiculo.proprietario }}
                                         <td> {{veiculo.placa}} </td>
                                         <td> {{veiculo.get_tipo_display}} </td>
                                         <td> {{veiculo.modelo}} </td>

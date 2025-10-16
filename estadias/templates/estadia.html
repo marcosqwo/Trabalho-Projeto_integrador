@@ -7,10 +7,10 @@
             <form action="" method="GET">
                 <div class="form-group row p-3">
 {#                    <div class="col-sm-5">#}
-{#                        {% bootstrap_field form.cliente layout='horizontal' %}#}
+{#                        {% bootstrap_field form.estadia layout='horizontal' %}#}
 {#                    </div>#}
 {#                    <div class="col-sm-5">#}
-{#                        {% bootstrap_field form.funcionario layout='horizontal' %}#}
+{#                        {% bootstrap_field form. layout='horizontal' %}#}
 {#                    </div>#}
                     <div class="col-sm-2">
                         <button type="submit" class="btn btn-primary">
@@ -25,22 +25,19 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="table-success">
-                                <th>Veiculo</th>
+                                <th>Veiculo/Placa</th>
                                 <th>Cliente</th>
                                 <th>Horário</th>
                                 <th>Funcionário</th>
+                                <th>Valor</th>
                                 <th style="width: 100px; text-align: center">Ações</th>
                             </thead>
                             <tbody>
                              {% for estadia in object_list %}
                                     <tr>
                                     <td> {{ estadia.veiculo }}</td>
-                                    {% if estadia.veiculo.cliente_fisico %}
-                                        <td>{{estadia.veiculo.cliente_fisico}}</td>
-                                    {% elif estadia.veiculo.cliente_juridico %}
-                                        <td>{{estadia.veiculo.cliente_fisico}}</td>
-                                    {% endif %}
-                                        <td>{{estadia.veiculo.placa}} </td>
+                                        <td>{{estadia.veiculo.proprietario}}</td>
+                                        <td>{{estadia.entrada}} </td>
                                         <td>{{estadia.funcionario}} </td>
                                         <td>
                                             <strong>Valor total: {{estadia.valor}}</strong>
@@ -59,11 +56,11 @@
                                                         <i class="far fa-trash-alt"></i>
                                                     </span>
                                                 </a>
-                                                <a href="{% url 'estadia_sair' estadia.pk %}">
-                                                    <span class="icon">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </span>
-                                                </a>
+{#                                                <a href="{% url 'estadia_sair' estadia.pk %}">#}
+{#                                                    <span class="icon">#}
+{#                                                        <i class="far fa-check-circle"></i>#}
+{#                                                    </span>#}
+{#                                                </a>#}
 
 
 

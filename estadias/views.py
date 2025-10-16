@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
 
-from estadias.forms import EstadiaModelForm, SaidaModelForm
+from estadias.forms import EstadiaModelForm
 from estadias.models import Estadia
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -23,7 +23,7 @@ class EstadiaView(ListView):
             listagem = paginator.get_page(self.request.GET.get('page'))
             return listagem
         else:
-            return messages.info(self.request, 'Não existem Funcionários cadastrados!')
+            return messages.info(self.request, 'Não existem Estadias cadastradas!')
 
 class EstadiaAddView(SuccessMessageMixin,CreateView):
     model = Estadia
@@ -40,16 +40,16 @@ class EstadiaUpdateView(SuccessMessageMixin,UpdateView):
     success_message = 'Estádia atualizado com sucesso!'
 
 
-class SaidaEstadiaUpdateView(SuccessMessageMixin,UpdateView):
-    model = Estadia
-    form_class = SaidaModelForm
-    template_name = 'estadia_form.html'
-    success_url = reverse_lazy('estadias')
-    success_message = 'Estádia atualizado com sucesso!'
-    #
-    # def form_valid(self, form):
-    #     #tempo = data_saida - data_entrada
-    #
+# class SaidaEstadiaUpdateView(SuccessMessageMixin,UpdateView):
+#     model = Estadia
+#     form_class = SaidaModelForm
+#     template_name = 'estadia_form.html'
+#     success_url = reverse_lazy('estadias')
+#     success_message = 'Estádia atualizado com sucesso!'
+#     #
+#     # def form_valid(self, form):
+#     #     #tempo = data_saida - data_entrada
+#     #
 
 
 class EstadiaDeleteView(SuccessMessageMixin,DeleteView):

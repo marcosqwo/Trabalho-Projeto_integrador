@@ -1,6 +1,8 @@
 import re
 
 from django import forms
+
+from clientes.models import PessoaFisica
 from veiculos.models import Veiculos
 
 
@@ -18,6 +20,14 @@ class VeiculosModelForm(forms.ModelForm):
             'required': 'A placa é obrigatória.',
         }
     )
+    pessoas_autorizadas = forms.ModelMultipleChoiceField(
+        queryset=PessoaFisica.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label="Pessoas Autorizadas",
+        help_text="Selecione as pessoas autorizadas para o veículo."
+    )
+
     class Meta:
         model = Veiculos
         fields = "__all__"
@@ -37,12 +47,12 @@ class VeiculosModelForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        cliente_fisico = cleaned_data.get('cliente_fisico')
-        cliente_juridico = cleaned_data.get('cliente_juridico')
+        proprietario = cleaned_data.get('proprietario')
 
 
-        if not cliente_fisico and not cliente_juridico:
-            raise forms.ValidationError("É necessário informar um cliente (físico ou jurídico).")
+
+        if not proprietario :
+            raise forms.ValidationError("É necessário informar um Proprietário.")
 
 
         campos_obrigatorios = ['placa', 'tipo', 'marca', 'modelo', 'ano']

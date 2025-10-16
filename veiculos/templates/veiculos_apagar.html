@@ -5,11 +5,7 @@
         <div class="card-body">
             <div class="row">
                 <h3 class="text-center">Dados do Veículos</h3>
-                {% if veiculos.cliente_fisico %}
-                <p class="p-2 mt-2"><strong>Cliente: </strong>{{veiculos.cliente_fisico}}</p>
-                {% else %}
-                <p class="p-2 mt-2"><strong>Cliente: </strong>{{veiculos.cliente_juridico}}</p>
-                {% endif %}
+                <p class="p-2 mt-2"><strong>Cliente: </strong>{{veiculos.proprietario}}</p>
                 <p class="p-2 mt-2"><strong>Modelo: </strong>{{veiculos.modelo}}</p>
                 <p class="p-2 mt-2"><strong>Ano: </strong>{{veiculos.ano}}</p>
                 <p class="p-2 mt-2">Confirma a exclusão do Veículo: <strong></strong>?</p>
