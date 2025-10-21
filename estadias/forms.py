@@ -1,11 +1,15 @@
 from django import forms
 from django.utils import timezone
 
-from estadias.models import Estadia
+from estadias.models import Estadia, ValorHora
 
 
 class EstadiaModelForm(forms.ModelForm):
     entrada = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        initial=timezone.now
+    )
+    saida = forms.DateTimeField(
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         initial=timezone.now
     )
@@ -20,8 +24,13 @@ class EstadiaModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.data.get('entrada'):
-            form = self.veiculo.
+        if  self.instance and self.instance.pk:
+            self.fields['entrada'].widget = forms.HiddenInput()
+            self.fields['funcionario_entrada'].widget = forms.HiddenInput()
+            self.fields['veiculo'].widget = forms.HiddenInput()
+        else:
+            self.fields['saida'].widget = forms.HiddenInput()
+            self.fields['funcionario_saida'].widget = forms.HiddenInput()
 
 
 
@@ -38,3 +47,9 @@ class EstadiaModelForm(forms.ModelForm):
 #     class Meta:
 #         model = Estadia
 #         fields = ['saida']
+
+
+class ValorHoraModelForm(forms.ModelForm):
+    class Meta:
+        model = ValorHora
+        fields = '__all__'
