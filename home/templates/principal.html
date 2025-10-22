@@ -44,7 +44,7 @@
 									</ul>
 								</li>
                                 <li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarServico" role="button"
+									<a class="nav-link dropdown-toggle" href="#" id="navbarVeiculo" role="button"
 										data-bs-toggle="dropdown" aria-expanded="false">
 										Veículos
 									</a>
@@ -54,7 +54,7 @@
 									</ul>
 								</li>
                                 <li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarProduto" role="button"
+									<a class="nav-link dropdown-toggle" href="#" id="navbarEstadas" role="button"
 										data-bs-toggle="dropdown" aria-expanded="false">
 										Estadas
 									</a>
@@ -65,12 +65,16 @@
 								</li>
 
                                 <li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarProduto" role="button"
+									<a class="nav-link dropdown-toggle" href="#" id="navbarValorHora" role="button"
 										data-bs-toggle="dropdown" aria-expanded="false">
 										Valor da Hora
 									</a>
 									<ul class="dropdown-menu">
+                                        {% if pode_cadastrar%}
 										<li><a class="dropdown-item" href="{% url 'valor_hora_adicionar' %}">Cadastrar Valor Da hora</a></li>
+                                        {% else %}
+                                        <li><a class="dropdown-item disabled" style="pointer-events:none;opacity:0.5;" href="#">Cadastrar Valor Da hora</a></li>
+                                        {% endif %}
 										<li><a class="dropdown-item" href="{% url 'valor_hora' %}">Listar Valores das Horas</a></li>
 									</ul>
 								</li>

@@ -36,20 +36,17 @@ class EstadiaModelForm(forms.ModelForm):
 
 
 
-#
-# class SaidaModelForm(forms.ModelForm):
-#     saida = forms.DateTimeField(
-#         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-#         initial=timezone.now
-#     )
-#
-#
-#     class Meta:
-#         model = Estadia
-#         fields = ['saida']
 
 
 class ValorHoraModelForm(forms.ModelForm):
     class Meta:
         model = ValorHora
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        tipos_usados = ValorHora.objects.values_list('tipo', flat=True)
+        if self.instance.pk:
+            tipos_usados = tipos_usados.exclude(tipo=self.instance.tipo)
+        self.fields['tipo'].choices = [(key,label) for key,label in ValorHora.TIPO_VEICULO if key not in tipos_usados]

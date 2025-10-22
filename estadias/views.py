@@ -50,20 +50,36 @@ class EstadiaDeleteView(SuccessMessageMixin,DeleteView):
 
 class ValorHoraAddView(SuccessMessageMixin,CreateView):
     model = ValorHora
-    form_class =ValorHoraModelForm
+    form_class = ValorHoraModelForm
     template_name = 'valor_hora_form.html'
     success_url = reverse_lazy('valor_hora')
     success_message = 'Valor de horario criado com sucesso!'
 
 class ValorHoraUpdateView(SuccessMessageMixin,UpdateView):
     model = ValorHora
-    form_class = EstadiaModelForm
-    template_name = 'estadia_form.html'
+    form_class = ValorHoraModelForm
+    template_name = 'valor_hora_form.html'
     success_url = reverse_lazy('valor_hora')
     success_message = 'Estádia criada com sucesso!'
+
+class ValorHoraDeleteView(SuccessMessageMixin,DeleteView):
+    model = ValorHora
+    success_url = reverse_lazy('valor_hora')
+    success_message = 'Valor de horario deletado com sucesso!'
 
 class ValorHoraView(ListView):
     model = ValorHora
     template_name = 'valor_hora.html'
-    context_object_name = 'valor_hora'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        todos_tipos = dict(ValorHora.TIPO_VEICULO).keys()
+
+        tipos_usados = ValorHora.objects.values_list('tipo', flat=True)
+
+        context['pode_cadastrar'] = len(tipos_usados) < len(todos_tipos)
+
+        return context
+
 

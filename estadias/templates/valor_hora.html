@@ -17,7 +17,7 @@
                             <tbody>
                              {% for valor_hora in object_list %}
                                     <tr>
-                                    <td> {{ valor_hora.tipo }}</td>
+                                    <td> {{ valor_hora.get_tipo_display }}</td>
                                         <td>{{valor_hora.valor_da_hora}}</td>
                                         <td style="text-align: center">
 
@@ -27,14 +27,21 @@
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                 </a>
+                                                <form method="post" action="{% url 'valor_hora_apagar' valor_hora.pk %}" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja apagar?');">
+                                                            {% csrf_token %}
+                                                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                                                <span class="icon has-text-danger">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </span>
+                                                            </button>
+                                                </form>
+
+
                                         </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        {% bootstrap_pagination object_list url="/valor_hora?page=1" size="sm" %}
                     </div>
                 </div>
             {% endif %}
