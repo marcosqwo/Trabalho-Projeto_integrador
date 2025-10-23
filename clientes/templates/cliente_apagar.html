@@ -12,7 +12,7 @@
                     <p class="p-2 mt-2"><strong>Cnpj: </strong>{{object.cnpj}}</p>
                 {% endif %}
                 <p class="p-2 mt-2">Confirma a exclusão do cliente: <strong></strong>?</p>
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" class="form-delete">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="text-end">

@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.views.generic import ListView,CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
-
 from estadias.forms import EstadiaModelForm, ValorHoraModelForm
 from estadias.models import Estadia, ValorHora
 from django.contrib.messages.views import SuccessMessageMixin
@@ -65,21 +64,14 @@ class ValorHoraUpdateView(SuccessMessageMixin,UpdateView):
 class ValorHoraDeleteView(SuccessMessageMixin,DeleteView):
     model = ValorHora
     success_url = reverse_lazy('valor_hora')
-    success_message = 'Valor de horario deletado com sucesso!'
+    success_message = 'Usuario deletado com sucesso!'
+
+
 
 class ValorHoraView(ListView):
     model = ValorHora
     template_name = 'valor_hora.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
-        todos_tipos = dict(ValorHora.TIPO_VEICULO).keys()
-
-        tipos_usados = ValorHora.objects.values_list('tipo', flat=True)
-
-        context['pode_cadastrar'] = len(tipos_usados) < len(todos_tipos)
-
-        return context
 
 
