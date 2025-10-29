@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from clientes.forms import PessoaFisicaModelForm , PessoaJuridicaModelForm
 from clientes.models import PessoaFisica, PessoaJuridica
+from funcionarios.models import Funcionario
 
 
 class ClientePessoaFisicaView(ListView):
@@ -17,7 +18,9 @@ class ClientePessoaFisicaView(ListView):
         qs = super(ClientePessoaFisicaView,self).get_queryset()
         if buscar:
           qs = qs.filter(nome__icontains=buscar)
+
         if qs.count()>0:
+            qs = qs.exclude(id__in=Funcionario.objects.values_list('id',flat=True))
             paginator = Paginator(qs,1)
             listagem = paginator.get_page(self.request.GET.get('page'))
             return listagem

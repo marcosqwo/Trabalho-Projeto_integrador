@@ -2,7 +2,8 @@ import re
 
 from django import forms
 
-from clientes.models import PessoaFisica
+from clientes.models import PessoaFisica, PessoaJuridica, Pessoa
+from funcionarios.models import Funcionario
 from veiculos.models import Veiculos
 
 
@@ -21,16 +22,27 @@ class VeiculosModelForm(forms.ModelForm):
         }
     )
     pessoas_autorizadas = forms.ModelMultipleChoiceField(
-        queryset=PessoaFisica.objects.all(),
+        queryset=Pessoa.objects.exclude(id__in=Funcionario.objects.values_list('id',flat=True)),
         required=False,
         widget=forms.CheckboxSelectMultiple,
         label="Pessoas Autorizadas",
         help_text="Selecione as pessoas autorizadas para o veículo."
     )
 
+
+
     class Meta:
         model = Veiculos
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+
+        self.fields['proprietario'].queryset = Pessoa.objects.exclude(id__in=Funcionario.objects.values_list('id',flat=True))
+
+
 
 
     def clean_placa(self):

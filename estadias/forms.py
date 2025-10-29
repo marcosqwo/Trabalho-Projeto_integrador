@@ -31,6 +31,7 @@ class EstadiaModelForm(forms.ModelForm):
         else:
             self.fields['saida'].widget = forms.HiddenInput()
             self.fields['funcionario_saida'].widget = forms.HiddenInput()
+            self.fields['valor'].widget = forms.HiddenInput()
 
 
 

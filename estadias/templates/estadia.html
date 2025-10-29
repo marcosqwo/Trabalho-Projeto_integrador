@@ -18,6 +18,7 @@
                         </button>
                     </div>
                 </div>
+                </div>
             </form>
             {% if object_list %}
                 <div class="card-body">
@@ -27,8 +28,10 @@
                             <thead class="table-success">
                                 <th>Veiculo/Placa</th>
                                 <th>Cliente</th>
-                                <th>Horário</th>
-                                <th>Funcionário</th>
+                                <th>Horário Entrada</th>
+                                <th>Horário Saida</th>
+                                <th>Funcionário Entrada</th>
+                                <th>Funcionário Saida</th>
                                 <th>Valor</th>
                                 <th style="width: 100px; text-align: center">Ações</th>
                             </thead>
@@ -37,34 +40,28 @@
                                     <tr>
                                     <td> {{ estadia.veiculo }}</td>
                                         <td>{{estadia.veiculo.proprietario}}</td>
-                                        <td>{{estadia.entrada}} </td>
-                                        <td>{{estadia.funcionario}} </td>
+                                        <td>{{estadia.entrada}}</td>
+                                        <td>{{estadia.saida}} </td>
+                                        <td>{{estadia.funcionario_entrada}} </td>
+                                        <td>{{estadia.funcionario_saida}} </td>
                                         <td>
                                             <strong>Valor total: {{estadia.valor}}</strong>
                                         </td>
 
                                         <td style="text-align: center">
 
-
+                                                {% if not estadia.valor %}
                                                 <a href="{% url 'estadia_editar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                 </a>
+                                                {% endif %}
                                                 <a href="{% url 'estadia_apagar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="far fa-trash-alt"></i>
                                                     </span>
                                                 </a>
-{#                                                <a href="{% url 'estadia_sair' estadia.pk %}">#}
-{#                                                    <span class="icon">#}
-{#                                                        <i class="far fa-check-circle"></i>#}
-{#                                                    </span>#}
-{#                                                </a>#}
-
-
-
-
 
                                         </td>
                                     </tr>

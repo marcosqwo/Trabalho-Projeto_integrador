@@ -22,8 +22,6 @@
                                     <td> {{ valor_hora.get_tipo_display }}</td>
                                         <td>{{valor_hora.valor_da_hora}}</td>
                                         <td style="text-align: center">
-
-
                                                 <a href="{% url 'valor_hora_editar' valor_hora.pk %}">
                                                     <span class="icon">
                                                         <i class="fas fa-edit"></i>
@@ -36,7 +34,7 @@
                                                                 <i class="far fa-trash-alt"></i>
                                                             </span>
                                                         </button>
-                                                    </form>
+                                                </form>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -46,6 +44,5 @@
                 </div>
             {% endif %}
         </div>
-
     </section>
 {% endblock %}
