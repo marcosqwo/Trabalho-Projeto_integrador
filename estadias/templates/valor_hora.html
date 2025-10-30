@@ -22,11 +22,13 @@
                                     <td> {{ valor_hora.get_tipo_display }}</td>
                                         <td>{{valor_hora.valor_da_hora}}</td>
                                         <td style="text-align: center">
-                                                <a href="{% url 'valor_hora_editar' valor_hora.pk %}">
-                                                    <span class="icon">
-                                                        <i class="fas fa-edit"></i>
-                                                    </span>
-                                                </a>
+                                              {% if not estadias_ativas %}
+                                                  <a href="{% url 'valor_hora_editar' valor_hora.pk %}">
+                                                      <i class="fas fa-edit"></i>
+                                                  </a>
+                                              {% else %}
+                                                  <i class="fas fa-lock text-muted" title="Há veículos estacionados, não é possível editar"></i>
+                                              {% endif %}
                                                 <form method="post" action="{% url 'valor_hora_apagar' valor_hora.pk %}" class="form-delete" style="display:inline;">
                                                         {% csrf_token %}
                                                         <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">

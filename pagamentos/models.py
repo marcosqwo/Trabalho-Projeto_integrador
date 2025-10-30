@@ -10,24 +10,24 @@ class Pagamento(models.Model):
         ('4', 'Crédito'),
     )
     JUROS_CREDITO = {
-        1: Decimal('0.00'),
-        2: Decimal('2.50'),
-        3: Decimal('4.00'),
-        4: Decimal('5.50'),
-        5: Decimal('7.00'),
-        7: Decimal('8.50'),
-        8: Decimal('9.00'),
-        9: Decimal('9.50'),
-        10: Decimal('10.00'),
-        11: Decimal('10.50'),
-        12: Decimal('11.00'),
+        Decimal('0.00'):1,
+        Decimal('2.50'):2,
+        Decimal('3.00'):3,
+        Decimal('3.50'):4,
+        Decimal('4.00'):5,
+        Decimal('8.50'):6,
+        Decimal('9.00'):7,
+        Decimal('9.50'):8,
+        Decimal('10.00'):9,
+        Decimal('10.50'):10,
+        Decimal('11.00'):11,
+        Decimal('12.50'):12,
     }
     estadia = models.ForeignKey('estadias.Estadia',verbose_name='Estadia',on_delete=models.CASCADE,related_name='pagamentos')
     tipo = models.CharField('Tipo',max_length=1,default='1', choices=TIPO_PAGAMENTO ,help_text='Tipo de pagamento')
-    data_pago= models.DateTimeField('Data de Pago',help_text='Data de pagamento')
     valor_original = models.DecimalField('Valor Original',max_digits=10,decimal_places=2,help_text='Valor original da venda')
     valor_final = models.DecimalField('Valor Final',max_digits=10,decimal_places=2,default=0)
-    parcelas = models.PositiveIntegerField('Número de Parcelas',default=1,help_text='Número de parcelas')
+    parcelas = models.IntegerField('Parcelas', choices=JUROS_CREDITO, default=1)
     data_pago = models.DateTimeField('Data de Pagamento',default=timezone.now)
 
     class Meta:
@@ -41,7 +41,7 @@ class Pagamento(models.Model):
         valor_base = self.estadia.valor or Decimal('0.00')
 
         if self.tipo == '4':
-            juros = self.JUROS_CREDITO.get(self.parcelas, Decimal('0.00'))
+            juros = self.JUROS_CREDITO.get( Decimal('0.00'),self.parcelas)
             valor_final = valor_base * (1 + juros / 100)
         else:
             valor_final = valor_base

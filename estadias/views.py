@@ -59,18 +59,26 @@ class ValorHoraUpdateView(SuccessMessageMixin,UpdateView):
     form_class = ValorHoraModelForm
     template_name = 'valor_hora_form.html'
     success_url = reverse_lazy('valor_hora')
-    success_message = 'Estádia criada com sucesso!'
+    success_message = 'Valor de Horário atualizada com sucesso!'
+
+
 
 class ValorHoraDeleteView(SuccessMessageMixin,DeleteView):
     model = ValorHora
     success_url = reverse_lazy('valor_hora')
-    success_message = 'Usuario deletado com sucesso!'
+    success_message = 'Valor de Horário deletado com sucesso!'
 
 
 
 class ValorHoraView(ListView):
     model = ValorHora
     template_name = 'valor_hora.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['estadias_ativas'] = Estadia.objects.filter(situacao='1').exists()
+        return context
 
 
 
