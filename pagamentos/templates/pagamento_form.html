@@ -49,13 +49,13 @@
     </div>
 
         <script>
-        // Script para mostrar/ocultar parcelas baseado no tipo de pagamento
+
         document.addEventListener('DOMContentLoaded', function() {
             const tipoSelect = document.querySelector('select[name="tipo"]');
             const parcelasDiv = document.querySelector('select[name="parcelas"]').closest('.mb-3');
 
             function toggleParcelas() {
-                if (tipoSelect.value === '4') { // Crédito
+                if (tipoSelect.value === '4') {
                     parcelasDiv.style.display = 'block';
                 } else {
                     parcelasDiv.style.display = 'none';
@@ -63,7 +63,7 @@
             }
 
             tipoSelect.addEventListener('change', toggleParcelas);
-            toggleParcelas(); // Executa ao carregar
+            toggleParcelas();
         });
         </script>
 {% endblock %}

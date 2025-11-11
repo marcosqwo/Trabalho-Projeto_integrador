@@ -1,6 +1,7 @@
 from django import forms
 from django.utils import timezone
-
+from funcionarios.models import Funcionario
+from clientes.models import Pessoa, PessoaJuridica
 from estadias.models import Estadia, ValorHora
 
 
@@ -31,6 +32,18 @@ class EstadiaModelForm(forms.ModelForm):
             self.fields['valor'].widget = forms.HiddenInput()
             self.fields['funcionario_saida'].required = True
 
+            cliente = PessoaJuridica.objects.all().filter(pk=self.instance.veiculo.proprietario.pk)
+
+            veiculo = getattr(self.instance,'veiculo',None)
+            if veiculo and isinstance(veiculo.proprietario, Pessoa) and cliente:
+                    self.fields['pessoas_autorizadas'] = forms.ModelMultipleChoiceField(
+                        queryset=veiculo.pessoas_autorizadas.all(),
+                        widget=forms.CheckboxSelectMultiple,
+                        required=True,
+                        label='Pessoas autorizadas para retirada'
+                    )
+
+
         else:
             self.fields['saida'].widget = forms.HiddenInput()
             self.fields['funcionario_saida'].widget = forms.HiddenInput()
@@ -46,6 +59,11 @@ class EstadiaModelForm(forms.ModelForm):
             raise forms.ValidationError(
                 'A data de saída deve ser posterior à data de entrada!'
             )
+        veiculo = getattr(self.instance, 'veiculo', None)
+        if veiculo and isinstance(veiculo.proprietario, PessoaJuridica):
+            pessoas_aut = cleaned_data.get('pessoas_autorizadas')
+            if not pessoas_aut or len(pessoas_aut) == 0:
+                self.add_error('pessoas_autorizadas', 'Selecione pelo menos uma pessoa autorizada.')
 
         return cleaned_data
 
