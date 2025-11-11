@@ -1,13 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from django.views import View
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView
 from django.core.paginator import Paginator
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 
 from estadias.models import Estadia
-from pagamentos.forms import PagamentoModelForm
+
 from pagamentos.models import Pagamento
 
 
@@ -30,20 +29,23 @@ class PagamentoView(ListView):
 
 class PagamentoAddView(SuccessMessageMixin,CreateView):
     model = Pagamento
-    form_class = PagamentoModelForm
+    fields = ['tipo','parcelas']
     template_name = 'pagamento_form.html'
-    success_url = reverse_lazy('pagamentos')
-    success_message = 'Pagamento criado com sucesso!'
+    success_url = reverse_lazy('estadias')
+    success_message = 'Pagamento feito com sucesso!'
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        estadia_id = self.request.GET.get('estadia_id') or self.kwargs.get('estadia_id')
-        if estadia_id:
-            from estadias.models import Estadia
-            kwargs['estadia'] = Estadia.objects.get(pk=estadia_id)
-        return kwargs
+    def dispatch(self, request, *args, **kwargs):
+        self.estadia = get_object_or_404(Estadia, pk=kwargs.get('pk'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['estadia'] = self.estadia
+        return context
 
     def form_valid(self, form):
-        if not form.instance.estadia_id and 'estadia' in form.initial:
-            form.instance.estadia = form.initial['estadia']
+        form.instance.estadia = self.estadia
+        form.instance.valor_original = self.estadia.valor
+
         return super().form_valid(form)
+

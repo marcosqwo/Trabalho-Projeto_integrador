@@ -26,6 +26,7 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="table-success">
+                                <th>Situação</th>
                                 <th>Veiculo/Placa</th>
                                 <th>Cliente</th>
                                 <th>Horário Entrada</th>
@@ -38,25 +39,25 @@
                             <tbody>
                              {% for estadia in object_list %}
                                     <tr>
-                                    <td> {{ estadia.veiculo }}</td>
+                                        <td>{{estadia.get_situacao_display}}</td>
+                                        <td>{{ estadia.veiculo.marca }} {{ estadia.veiculo.modelo }} <br> {{ estadia.veiculo.placa }}</td>
                                         <td>{{estadia.veiculo.proprietario}}</td>
                                         <td>{{estadia.entrada}}</td>
-                                        <td>{{estadia.saida}} </td>
+                                        <td>{{estadia.saida|default:"Em andamento"}}</td>
                                         <td>{{estadia.funcionario_entrada}} </td>
-                                        <td>{{estadia.funcionario_saida}} </td>
+                                        <td>{{estadia.funcionario_saida|default:"Em andamento"}}</td>
+
                                         <td>
                                             <strong>Valor total: {{estadia.valor}}</strong>
                                         </td>
 
                                         <td style="text-align: center">
 
-                                                {% if not estadia.valor %}
                                                 <a href="{% url 'estadia_editar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                 </a>
-                                                {% endif %}
                                                 <a href="{% url 'estadia_apagar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="far fa-trash-alt"></i>

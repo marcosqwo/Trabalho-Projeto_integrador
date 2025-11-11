@@ -22,7 +22,7 @@ class VeiculosModelForm(forms.ModelForm):
         }
     )
     pessoas_autorizadas = forms.ModelMultipleChoiceField(
-        queryset=Pessoa.objects.exclude(id__in=Funcionario.objects.values_list('id',flat=True)),
+        queryset=PessoaFisica.objects.all().exclude(id__in=Funcionario.objects.values_list('id',flat=True)).exclude(id__in=PessoaJuridica.objects.values_list('id',flat=True)),
         required=False,
         widget=forms.CheckboxSelectMultiple,
         label="Pessoas Autorizadas",

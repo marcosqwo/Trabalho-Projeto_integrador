@@ -20,7 +20,7 @@ class EstadiaModelForm(forms.ModelForm):
 
     class Meta:
         model = Estadia
-        fields = '__all__'
+        fields = ['funcionario_entrada','funcionario_saida','veiculo','entrada','saida','valor']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -28,11 +28,26 @@ class EstadiaModelForm(forms.ModelForm):
             self.fields['entrada'].widget = forms.HiddenInput()
             self.fields['funcionario_entrada'].widget = forms.HiddenInput()
             self.fields['veiculo'].widget = forms.HiddenInput()
+            self.fields['valor'].widget = forms.HiddenInput()
+            self.fields['funcionario_saida'].required = True
+
         else:
             self.fields['saida'].widget = forms.HiddenInput()
             self.fields['funcionario_saida'].widget = forms.HiddenInput()
             self.fields['valor'].widget = forms.HiddenInput()
 
+    def clean(self,):
+        cleaned_data = super().clean()
+        entrada = cleaned_data.get('entrada')
+        saida = cleaned_data.get('saida')
+
+
+        if saida and entrada and saida <= entrada:
+            raise forms.ValidationError(
+                'A data de saída deve ser posterior à data de entrada!'
+            )
+
+        return cleaned_data
 
 
 
@@ -51,3 +66,8 @@ class ValorHoraModelForm(forms.ModelForm):
         if self.instance.pk:
             tipos_usados = tipos_usados.exclude(tipo=self.instance.tipo)
         self.fields['tipo'].choices = [(key,label) for key,label in ValorHora.TIPO_VEICULO if key not in tipos_usados]
+
+        if not self.fields['tipo'].choices and not self.instance.pk:
+            self.fields['tipo'].choices = [('', 'Todos os tipos já foram cadastrados')]
+            self.fields['tipo'].disabled = True
+

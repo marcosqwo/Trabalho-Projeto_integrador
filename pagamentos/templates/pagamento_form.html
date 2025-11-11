@@ -1,21 +1,77 @@
+
 {% extends "principal.html" %}
 {% block content %}
-{% load django_bootstrap5%}
-    <div class="card shadow m-3 col-md-6 mx-auto">
+{% load django_bootstrap5 %}
+    <div class="card shadow m-3 col-md-8 mx-auto">
         <div class="card-body">
-            <div class="row">
-                <h3 class="text-center">Cadastro de Pagamentos</h3>
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% bootstrap_form form %}
-                    <div class="text-end">
-                        {% bootstrap_button button_type="submit" content="Salvar" %}
-                        <a href="{% url 'estadias' %}" class="btn btn-secondary text-white" type="button">
-                           <span class="text">Cancelar</span>
-                        </a>
+            <h3 class="text-center mb-4">Registrar Pagamento</h3>
+
+            <div class="alert alert-info mb-4">
+                <h5 class="alert-heading">
+                    <i class="bi bi-info-circle"></i> Dados da Estadia
+                </h5>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Veículo:</strong> {{ estadia.veiculo }}</p>
+                        <p class="mb-2"><strong>Cliente:</strong> {{ estadia.veiculo.proprietario }}</p>
+                        <p class="mb-2"><strong>Entrada:</strong> {{ estadia.entrada|date:"d/m/Y H:i" }}</p>
                     </div>
-                </form>
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Saída:</strong> {{ estadia.saida|date:"d/m/Y H:i" }}</p>
+                        <p class="mb-2"><strong>Funcionário:</strong> {{ estadia.funcionario_entrada }}</p>
+                        <p class="mb-0">
+                            <strong>Valor a Pagar:</strong>
+                            <span class="text-success fs-5">R$ {{ estadia.valor }}</span>
+                        </p>
+                    </div>
+                </div>
             </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+
+                <div id="valor-preview" class="alert alert-success d-none mb-3">
+                    <strong>Valor Final:</strong> <span id="valor-final-text">R$ {{ estadia.valor }}</span>
+                    <div id="parcela-info" class="d-none mt-2">
+                        <small><span id="num-parcelas"></span>x de <span id="valor-parcela"></span></small>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    {% bootstrap_button button_type="submit" content='<i class="bi bi-check-circle"></i> Confirmar Pagamento' button_class="btn-success" %}
+                    <a href="{% url 'estadias' %}" class="btn btn-secondary text-white" type="button">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
+
+        <script>
+        // Script para mostrar/ocultar parcelas baseado no tipo de pagamento
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipoSelect = document.querySelector('select[name="tipo"]');
+            const parcelasDiv = document.querySelector('select[name="parcelas"]').closest('.mb-3');
+
+            function toggleParcelas() {
+                if (tipoSelect.value === '4') { // Crédito
+                    parcelasDiv.style.display = 'block';
+                } else {
+                    parcelasDiv.style.display = 'none';
+                }
+            }
+
+            tipoSelect.addEventListener('change', toggleParcelas);
+            toggleParcelas(); // Executa ao carregar
+        });
+        </script>
 {% endblock %}
+
+
+
+
+
+
+
+
