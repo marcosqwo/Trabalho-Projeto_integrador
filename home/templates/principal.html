@@ -95,7 +95,7 @@
           {% for message in messages %}
             Swal.fire({
               icon: '{% if "error" in message.tags %}error{% elif "warning" in message.tags %}warning{% elif "success" in message.tags %}success{% else %}info{% endif %}',
-              title: '{{ message.tags|capfirst }}',
+              title: 'Sucesso',
               text: '{{ message|escapejs }}',
               timer: 3000,
               showConfirmButton: false,

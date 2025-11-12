@@ -52,22 +52,31 @@
                                         </td>
 
                                         <td style="text-align: center">
-
+                                            {% if estadia.situacao == '1'%}
                                                 <a href="{% url 'estadia_editar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                 </a>
+                                            {% elif estadia.situacao == '2' %}
+                                                 <a href="{% url 'estadias_visualizar' estadia.pk %}">
+                                                    <span class="icon">
+                                                        <i class="bi bi-card-checklist"></i>
+                                                    </span>
+                                                </a>
+                                            {% endif %}
                                                 <a href="{% url 'estadia_apagar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="far fa-trash-alt"></i>
                                                     </span>
                                                 </a>
+                                            {%if estadia.valor > 0 %}
                                                <a href="{% url 'estadia_pagar' estadia.pk %}">
                                                     <span class="icon">
                                                         <i class="bi bi-cash-coin"></i>
                                                     </span>
                                                 </a>
+                                            {% endif %}
 
                                         </td>
                                     </tr>

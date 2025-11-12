@@ -1,0 +1,154 @@
+{% extends "principal.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="card shadow m-3 col-md-10 mx-auto">
+        <div class="card-body">
+            <h3 class="text-center mb-4">
+                <i class="bi bi-receipt"></i> Detalhes da Estadia Paga
+            </h3>
+
+            <!-- Informações do Veículo e Cliente -->
+            <div class="alert alert-info mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-car-front"></i> Veículo</h5>
+                        <p class="mb-1"><strong>Modelo:</strong> {{ estadia.veiculo.marca }} {{ estadia.veiculo.modelo }}</p>
+                        <p class="mb-1"><strong>Placa:</strong> {{ estadia.veiculo.placa }}</p>
+                        <p class="mb-0"><strong>Tipo:</strong> {{ estadia.veiculo.get_tipo_display }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-person"></i> Cliente</h5>
+                        <p class="mb-0"><strong>Nome:</strong> {{ estadia.veiculo.proprietario }}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Dados da Estadia</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong>Entrada:</strong>
+                                {{ estadia.entrada|date:"d/m/Y H:i" }}
+                            </p>
+                            <p class="mb-2">
+                                <strong>Funcionário Entrada:</strong>
+                                {{ estadia.funcionario_entrada }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong>Saída:</strong>
+                                {{ estadia.saida|date:"d/m/Y H:i" }}
+                            </p>
+                            <p class="mb-2">
+                                <strong>Funcionário Saída:</strong>
+                                {{ estadia.funcionario_saida }}
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+
+                        <div class="col-md-0 text-end">
+                            <p class="mb-0">
+                                <strong>Valor da Estadia:</strong>
+                                <span class="text-success fs-5">R$ {{ estadia.valor }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-cash-coin"></i> Dados do Pagamento</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="mb-2">
+                                <strong>Tipo de Pagamento:</strong><br>
+                                <span class="badge bg-primary">{{ pagamento.get_tipo_display }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="mb-2">
+                                <strong>Data do Pagamento:</strong><br>
+                                {{ pagamento.data_pago|date:"d/m/Y H:i" }}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            {% if pagamento.tipo == '4' %}
+                                <p class="mb-2">
+                                    <strong>Parcelas:</strong><br>
+                                    {{ pagamento.parcelas }}x
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong>Valor Original:</strong>
+                                R$ {{ pagamento.valor_original }}
+                            </p>
+                            {% if pagamento.tipo == '4' %}
+                                <p class="mb-0 text-muted">
+                                    <small>Juros aplicados: {{ pagamento.parcelas }}x</small>
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p class="mb-0">
+                                <strong>Valor Final Pago:</strong>
+                            </p>
+                            <p class="fs-3 fw-bold text-success mb-0">
+                                R$ {{ pagamento.valor_final }}
+                            </p>
+                            {% if pagamento.tipo == '4' %}
+                                <p class="text-muted mb-0">
+                                    <small>{{ pagamento.parcelas }}x de R$ {{ pagamento.calcular_valor_parcela }}</small>
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="alert alert-success">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="mb-0">
+                            <i class="bi bi-check-circle"></i>
+                            Pagamento Confirmado
+                        </h5>
+                        <small>Status: <strong>PAGO</strong></small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <p class="mb-0"><strong>Total Pago:</strong></p>
+                        <p class="fs-2 fw-bold text-success mb-0">
+                            R$ {{ pagamento.valor_final }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="text-end mt-4">
+                <a href="{% url 'estadias' %}" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Voltar para Estadias
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

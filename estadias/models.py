@@ -98,6 +98,8 @@ class Estadia(models.Model):
 
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.funcionario_entrada,self.funcionario_saida,self.veiculo,self.entrada,self.saida,self.valor,self.situacao}"
 
 
 

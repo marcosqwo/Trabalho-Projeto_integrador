@@ -1,10 +1,11 @@
-
 {% extends "principal.html" %}
-{% block content %}
 {% load django_bootstrap5 %}
+{% block content %}
     <div class="card shadow m-3 col-md-8 mx-auto">
         <div class="card-body">
-            <h3 class="text-center mb-4">Registrar Pagamento</h3>
+            <h3 class="text-center mb-4">
+                <i class="bi bi-cash-coin"></i> Registrar Pagamento
+            </h3>
 
             <div class="alert alert-info mb-4">
                 <h5 class="alert-heading">
@@ -19,28 +20,35 @@
                     </div>
                     <div class="col-md-6">
                         <p class="mb-2"><strong>Saída:</strong> {{ estadia.saida|date:"d/m/Y H:i" }}</p>
-                        <p class="mb-2"><strong>Funcionário:</strong> {{ estadia.funcionario_entrada }}</p>
                         <p class="mb-0">
-                            <strong>Valor a Pagar:</strong>
-                            <span class="text-success fs-5">R$ {{ estadia.valor }}</span>
+                            <strong>Valor da Estadia:</strong>
+                            <span class="text-primary fs-5">R$ {{ estadia.valor }}</span>
                         </p>
                     </div>
                 </div>
             </div>
-            <form method="POST" enctype="multipart/form-data">
+
+            <form method="POST">
                 {% csrf_token %}
                 {% bootstrap_form form %}
 
-                <div id="valor-preview" class="alert alert-success d-none mb-3">
-                    <strong>Valor Final:</strong> <span id="valor-final-text">R$ {{ estadia.valor }}</span>
-                    <div id="parcela-info" class="d-none mt-2">
-                        <small><span id="num-parcelas"></span>x de <span id="valor-parcela"></span></small>
-                    </div>
+                <div id="pix-box" class="alert alert-light border text-center d-none">
+                <h5><i class="bi bi-qr-code"></i> Escaneie o QR Code para pagamento via Pix</h5>
+                <img id="pix-qrcode" src="{{ MEDIA_URL }}qrcodes/pix_qrcode.png" alt="QR Code Pix" class="img-fluid rounded shadow mt-3" style="max-width: 250px;">
+                </div>
+
+
+                <div id="preview" class="alert alert-success d-none mb-3 text-center">
+                    <p class="mb-1"><strong>Valor Total:</strong></p>
+                    <p class="fs-2 fw-bold mb-0">R$ <span id="valor-final"></span></p>
+                    <small id="parcelas-info" class="d-none text-muted"></small>
                 </div>
 
                 <div class="text-end">
-                    {% bootstrap_button button_type="submit" content='<i class="bi bi-check-circle"></i> Confirmar Pagamento' button_class="btn-success" %}
-                    <a href="{% url 'estadias' %}" class="btn btn-secondary text-white" type="button">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-check-circle"></i> Confirmar Pagamento
+                    </button>
+                    <a href="{% url 'estadias' %}" class="btn btn-secondary btn-lg">
                         <i class="bi bi-x-circle"></i> Cancelar
                     </a>
                 </div>
@@ -48,24 +56,42 @@
         </div>
     </div>
 
-        <script>
+    <script>
+        const tipo = document.querySelector('select[name="tipo"]');
+        const parcelas = document.querySelector('select[name="parcelas"]');
+        const parcelasDiv = parcelas.closest('.mb-3');
+        const pixBox = document.getElementById('pix-box');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tipoSelect = document.querySelector('select[name="tipo"]');
-            const parcelasDiv = document.querySelector('select[name="parcelas"]').closest('.mb-3');
 
-            function toggleParcelas() {
-                if (tipoSelect.value === '4') {
-                    parcelasDiv.style.display = 'block';
+        function atualizar() {
+            parcelasDiv.style.display = tipo.value === '4' ? 'block' : 'none';
+
+            fetch(`/pagamentos/calcular/?valor={{ estadia.valor }}&tipo=${tipo.value}&parcelas=${parcelas.value}`)
+                .then(r => r.json())
+                .then(d => {
+                    document.getElementById('valor-final').textContent = d.valor_final.replace('.', ',');
+                    document.getElementById('preview').classList.remove('d-none');
+
+                    if (tipo.value === '4') {
+                        document.getElementById('parcelas-info').textContent =
+                            `${parcelas.value}x de R$ ${d.valor_parcela.replace('.', ',')}`;
+                        document.getElementById('parcelas-info').classList.remove('d-none');
+                    } else {
+                        document.getElementById('parcelas-info').classList.add('d-none');
+                    }
+                    });
+
+                 if (tipo.value === '1') {
+                    pixBox.classList.remove('d-none');
                 } else {
-                    parcelasDiv.style.display = 'none';
+                    pixBox.classList.add('d-none');
                 }
-            }
+        }
 
-            tipoSelect.addEventListener('change', toggleParcelas);
-            toggleParcelas();
-        });
-        </script>
+        tipo.addEventListener('change', atualizar);
+        parcelas.addEventListener('change', atualizar);
+        atualizar();
+    </script>
 {% endblock %}
 
 

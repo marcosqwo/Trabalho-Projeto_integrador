@@ -2,7 +2,7 @@ from _decimal import Decimal
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from django.views.generic import ListView,CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.paginator import Paginator
 from estadias.forms import EstadiaModelForm, ValorHoraModelForm
 from estadias.models import Estadia, ValorHora
@@ -66,6 +66,21 @@ class EstadiaDeleteView(SuccessMessageMixin,DeleteView):
     success_url = reverse_lazy('estadias')
     success_message = 'Estádia deletado com sucesso!'
 
+class EstadiaVisualizar(DetailView):
+    model = Estadia
+    template_name = 'estadia_visualizar.html'
+    context_object_name = 'estadia'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+
+        try:
+            context['pagamento'] = self.object.pagamentos.first()
+        except Exception:
+            context['pagamento'] = None
+
+        return context
 
 class ValorHoraAddView(SuccessMessageMixin,CreateView):
     model = ValorHora

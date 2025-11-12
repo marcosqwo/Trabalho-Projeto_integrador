@@ -13,5 +13,5 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['qtd_funcionarios'] = Funcionario.objects.count()
         context['qtd_clientes'] = PessoaFisica.objects.count() + PessoaJuridica.objects.count()
-        context['qtd_carros'] = Estadia.objects.count()
+        context['qtd_carros'] = Estadia.objects.filter(situacao='1').count()
         return context
