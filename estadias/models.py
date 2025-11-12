@@ -76,8 +76,8 @@ class Estadia(models.Model):
 
         tempo_permanencia = self.saida - self.entrada
         horas_totais = Decimal(str(tempo_permanencia.total_seconds() / 3600))
-
-
+        if tempo_permanencia.total_seconds() < 900:
+            return Decimal('0.00')
         valor_total = valor_por_hora * horas_totais
 
         return valor_total.quantize(Decimal('0.01'))
