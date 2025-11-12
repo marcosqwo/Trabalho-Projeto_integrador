@@ -56,6 +56,10 @@ class Pagamento(models.Model):
         if self.tipo == '4':
             juros = self.JUROS_CREDITO.get(self.parcelas, Decimal('0.00'))
             valor_final = valor_base * (Decimal('1') + juros / Decimal('100'))
+        elif self.tipo == '1':
+            desconto = valor_base * Decimal('0.10')
+            valor_final = valor_base - desconto
+
         else:
             valor_final = valor_base
 
