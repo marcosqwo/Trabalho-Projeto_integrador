@@ -75,6 +75,7 @@ class Pagamento(models.Model):
         if self.estadia:
             self.estadia.situacao = 2
             self.estadia.save()
+            self.estadia.enviar_email()
 
     def __str__(self):
         if self.tipo == '4':

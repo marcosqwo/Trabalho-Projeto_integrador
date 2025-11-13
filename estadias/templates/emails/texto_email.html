@@ -1,19 +1,78 @@
-<h3>Olá <strong>{{cliente}}</strong></h3>
-<p> Estamos enviando este e-mail para comunicar que os serviços que você solicitou já foram concluidos </p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagamento Concluído - Estacione Bem</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .info {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .info strong {
+            color: #000;
+        }
 
-<h3>Dados do Atendimento</h3>
-<p><strong>  Horário: </strong>{{horario}}</p>
-<p><strong>Funcionário responsável pelo agendamento:  </strong> {{funcionario}}</p>
+        .valor {
+            font-size: 1.2em;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+            text-align: center;
+        }
+        .footer strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pagamento Confirmado ✅</h2>
 
-<h4> Serviços realizados </h4>
-{% for desc in descricao %}
-    {{desc}} <br>
-{% endfor %}
+        <p>Olá <strong>{{ cliente }}</strong>,</p>
 
-<p><strong>Valor total:</strong>{{ valor }} </p>
+        <p>Temos o prazer de informar que o pagamento referente à sua estadia foi <strong>concluído com sucesso</strong>.</p>
 
-<p> Informamos que o seu veículo está à disposição e pode ser retirado.</p>
+        <div class="info">
+            <p><strong>🕓 Horário de Entrada:</strong>  {{entrada}}</p>
+            <p><strong>🕓 Horário de Saida:</strong>  {{saida}}</p>
+            <p><strong>👨‍💼 Funcionário responsável:</strong> {{ funcionario }}</p>
+        </div>
 
-<p><strong> Agradecemos pela preferência! Volte sempre </strong> </p>
 
-<p style="color: darkcyan"><strong> LavaCar</strong></p>
+        <p class="valor">💰 Valor total: R$ {{ valor }}</p>
+
+        <p>Seu veículo já está <strong>liberado para retirada</strong>.</p>
+
+        <p>Agradecemos pela sua preferência e confiança.<br>
+        Esperamos vê-lo novamente em breve!</p>
+
+        <div class="footer">
+            <p>Atenciosamente,</p>
+            <p><strong>Equipe Estacione Bem</strong> 🚗</p>
+        </div>
+    </div>
+</body>
+</html>

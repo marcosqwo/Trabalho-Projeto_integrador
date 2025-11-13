@@ -1,19 +1,20 @@
-Olá {{cliente}}
-Estamos enviando este e-mail para comunicar que os serviços que você solicitou já foram concluidos
-
+Olá {{cliente}},
+Temos o prazer de informar que o pagamento referente à sua estadia foi concluído com sucesso.
 Dados do Atendimento
-Horário: {{horario}}
+
+Dados da estadia
+Horário de Entrada: {{entrada}}
+Horário de Saida: {{entrada}}
+
 Funcionário responsável pelo agendamento: {{funcionario}}
 
-Serviços realizados
-{% for desc in descricao %}
-    {{desc}} \n
-{% endfor %}
 
-Valor total:{{ valor }} </p>
+Valor total:{{ valor }}
 
-Informamos que o seu veículo está à disposição e pode ser retirado.
+Seu veículo já está liberado para retirada.
 
-Agradecemos pela preferência! Volte sempre
+Agradecemos pela preferência e confiança!
+Esperamos vê-lo novamente em breve.
 
-LavaCar
+Atenciosamente,
+Equipe Estacione Bem
